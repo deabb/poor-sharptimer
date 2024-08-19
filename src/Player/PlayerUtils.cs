@@ -555,11 +555,6 @@ namespace SharpTimer
                 player.PrintToChat($" {Localizer["prefix"]} {Localizer["timer_style", GetNamedStyle(style)]}");
 
                 if (IsAllowedPlayer(player) && playerTimers[player.Slot].SoundsEnabled != false) player.ExecuteClientCommand($"play {beepSound}");
-
-                if (enableReplays == true && enableSRreplayBot == true && newSR && (oldticks > newticks || oldticks == 0))
-                {
-                    _ = Task.Run(async () => await SpawnReplayBot());
-                }
             });
         }
 

@@ -13,11 +13,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-using System.Drawing;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
-using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace SharpTimer
@@ -218,15 +216,6 @@ namespace SharpTimer
                             if (playerTimer.MovementService != null && playerTimer.MovementService.DuckSpeed != 7.0f)
                             {
                                 playerTimer.MovementService.DuckSpeed = 7.0f;
-                            }
-                        }
-
-                        if (hideAllPlayers == true)
-                        {
-                            if (player.PlayerPawn!.Value.Render != Color.FromArgb(0, 0, 0, 0))
-                            {
-                                player.PlayerPawn.Value.Render = Color.FromArgb(0, 0, 0, 0);
-                                Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseModelEntity", "m_clrRender");
                             }
                         }
 

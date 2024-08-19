@@ -804,33 +804,7 @@ namespace SharpTimer
                             else
                                 SharpTimerError("MapExec Error: file name returned null");
                         }
-
-                        if (hideAllPlayers == true) Server.ExecuteCommand($"mp_teammates_are_enemies 1");
-                        if (enableSRreplayBot)
-                        {
-                            Server.NextFrame(() =>
-                            {
-                                Server.ExecuteCommand($"sv_hibernate_when_empty 0");
-                                Server.ExecuteCommand($"bot_join_after_player 0");
-                            });
-                        }
                     });
-
-                    if (enableReplays == true && enableSRreplayBot == true)
-                    {
-                        AddTimer(5.0f, () =>
-                        {
-                            if (ConVar.Find("mp_force_pick_time")!.GetPrimitiveValue<float>() == 1.0)
-                                _ = SpawnReplayBot();
-                            else
-                            {
-                                Server.PrintToChatAll($" {ChatColors.LightRed}Couldnt Spawn Replay bot!");
-                                Server.PrintToChatAll($" {ChatColors.LightRed}Please make sure mp_force_pick_time is set to 1");
-                                Server.PrintToChatAll($" {ChatColors.LightRed}in your custom_exec.cfg");
-                                SharpTimerError("Couldnt Spawn Replay bot! Please make sure mp_force_pick_time is set to 1 in your custom_exec.cfg");
-                            }
-                        });
-                    }
 
                     if (removeCrouchFatigueEnabled == true) Server.ExecuteCommand("sv_timebetweenducks 0");
 
@@ -967,16 +941,6 @@ namespace SharpTimer
                             Server.ExecuteCommand($"execifexists SharpTimer/MapData/MapExecs/{MapExecFile}");
                         else
                             SharpTimerError("MapExec Error: file name returned null");
-                    }
-
-                    if (hideAllPlayers == true) Server.ExecuteCommand($"mp_teammates_are_enemies 1");
-                    if (enableSRreplayBot)
-                    {
-                        Server.NextFrame(() =>
-                        {
-                            Server.ExecuteCommand($"sv_hibernate_when_empty 0");
-                            Server.ExecuteCommand($"bot_join_after_player 0");
-                        });
                     }
                 });
 
@@ -1297,8 +1261,6 @@ namespace SharpTimer
             currentMapOverrideStageRequirement = false;
 
             globalPointsMultiplier = 1.0f;
-
-            startKickingAllFuckingBotsExceptReplayOneIFuckingHateValveDogshitFuckingCompanySmile = false;
         }
 
         public async Task<JsonDocument?> LoadJson(string path)

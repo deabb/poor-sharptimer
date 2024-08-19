@@ -2,15 +2,9 @@ using System.Text.Json;
 using MySqlConnector;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
-using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Utils;
 using System.Data;
 using Npgsql;
 using System.Data.Common;
-using System.Diagnostics;
-using SharpTimer.Database;
 
 namespace SharpTimer.Database
 {
@@ -122,6 +116,7 @@ namespace SharpTimer.Database
                                                     "HideKeys BOOL DEFAULT false",
                                                     "HideJS BOOL DEFAULT false",
                                                     "SoundsEnabled BOOL DEFAULT false",
+                                                    "PlayerFov INT DEFAULT 0",
                                                     "IsVip BOOL DEFAULT false",
                                                     "BigGifID VARCHAR(16) DEFAULT 'x'"
                                                 ];
@@ -146,6 +141,7 @@ namespace SharpTimer.Database
                                                     @"""HideKeys"" BOOL DEFAULT false",
                                                     @"""HideJS"" BOOL DEFAULT false",
                                                     @"""SoundsEnabled"" BOOL DEFAULT false",
+                                                    @"""PlayerFov"" INT DEFAULT 0",
                                                     @"""IsVip"" BOOL DEFAULT false",
                                                     @"""BigGifID"" VARCHAR(16) DEFAULT 'x'"
                                                 ];
@@ -222,7 +218,7 @@ namespace SharpTimer.Database
             {
                 try
                 {
-                    _ = await createTableCommand!.ExecuteNonQueryAsync();
+                    await createTableCommand!.ExecuteNonQueryAsync();
                 }
                 catch (Exception ex)
                 {
@@ -335,7 +331,7 @@ namespace SharpTimer.Database
             {
                 try
                 {
-                    _ = await command!.ExecuteNonQueryAsync();
+                    await command!.ExecuteNonQueryAsync();
                 }
                 catch (Exception ex)
                 {
@@ -410,6 +406,7 @@ namespace SharpTimer.Database
                                             HideKeys BOOL,
                                             HideJS BOOL,
                                             SoundsEnabled BOOL,
+                                            PlayerFov INT,
                                             IsVip BOOL,
                                             BigGifID VARCHAR(16),
                                             PRIMARY KEY (SteamID)
@@ -427,6 +424,7 @@ namespace SharpTimer.Database
                                             ""HideKeys"" BOOL,
                                             ""HideJS"" BOOL,
                                             ""SoundsEnabled"" BOOL,
+                                            ""PlayerFov"" INT,
                                             ""IsVip"" BOOL,
                                             ""BigGifID"" VARCHAR(16),
                                             PRIMARY KEY (""SteamID"")

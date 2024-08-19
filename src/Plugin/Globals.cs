@@ -35,7 +35,6 @@ namespace SharpTimer
         private Dictionary<int, PlayerReplays> playerReplays = [];
         private Dictionary<int, List<PlayerCheckpoint>> playerCheckpoints = [];
         private Dictionary<int, CCSPlayerController> connectedPlayers = [];
-        private Dictionary<int, CCSPlayerController> connectedReplayBots = [];
         private Dictionary<uint, CCSPlayerController> specTargets = [];
         private EntityCache? entityCache;
         public Dictionary<string, PlayerRecord>? SortedCachedRecords = [];
@@ -101,8 +100,6 @@ namespace SharpTimer
         public bool usePostgres = false;
         public bool ignoreJSON = false;
         public bool enableReplays = false;
-        public bool enableSRreplayBot = false;
-        public bool startKickingAllFuckingBotsExceptReplayOneIFuckingHateValveDogshitFuckingCompanySmile = false;
         public int maxReplayFrames = 19200;
         public bool globalRanksEnabled = false;
         public bool globalRanksFreePointsEnabled = true;
@@ -132,7 +129,6 @@ namespace SharpTimer
         public bool enableStyles = true;
         public bool enableStylePoints = true;
         public bool removeLegsEnabled = false;
-        public bool hideAllPlayers = false;
         public bool removeCollisionEnabled = true;
         public bool disableDamage = true;
         public bool altDmgHook = false;
@@ -153,6 +149,7 @@ namespace SharpTimer
         public bool isRankHUDTimerRunning = false;
         public bool removeCrouchFatigueEnabled = true;
         public bool goToEnabled = false;
+        public bool fovChangerEnabled = true;
         public int cmdCooldown = 64;
         public float fakeTriggerHeight = 50;
         public int altVeloMaxSpeed = 3000;

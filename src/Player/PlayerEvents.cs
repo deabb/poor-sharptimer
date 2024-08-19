@@ -24,7 +24,7 @@ namespace SharpTimer
 {
     public partial class SharpTimer
     {
-        private void OnPlayerConnect(CCSPlayerController? player, bool isForBot = false)
+        private void OnPlayerConnect(CCSPlayerController? player)
         {
             try
             {
@@ -67,25 +67,20 @@ namespace SharpTimer
                     playerTimers[playerSlot].SetRespawnPos = null;
                     playerTimers[playerSlot].SetRespawnAng = null;
 
-                    if (isForBot == false) _ = Task.Run(async () => await IsPlayerATester(steamID, playerSlot));
+                    _ = Task.Run(async () => await IsPlayerATester(steamID, playerSlot));
 
                     //PlayerSettings
-                    if ((useMySQL || usePostgres) && isForBot == false) _ = Task.Run(async () => await GetPlayerStats(player, steamID, playerName, playerSlot, true));
+                    if ((useMySQL || usePostgres)) _ = Task.Run(async () => await GetPlayerStats(player, steamID, playerName, playerSlot, true));
 
                     if (connectMsgEnabled == true && !useMySQL && !usePostgres) Server.PrintToChatAll($"{msgPrefix}Player {ChatColors.Red}{player.PlayerName} {ChatColors.White}connected!");
-                    if (cmdJoinMsgEnabled == true && isForBot == false) PrintAllEnabledCommands(player);
+                    if (cmdJoinMsgEnabled == true) PrintAllEnabledCommands(player);
 
                     SharpTimerDebug($"Added player {player.PlayerName} with UserID {player.UserId} to connectedPlayers");
                     SharpTimerDebug($"Total players connected: {connectedPlayers.Count}");
                     SharpTimerDebug($"Total playerTimers: {playerTimers.Count}");
                     SharpTimerDebug($"Total playerReplays: {playerReplays.Count}");
 
-                    if (isForBot == true || hideAllPlayers == true)
-                    {
-                        player.PlayerPawn.Value.Render = Color.FromArgb(0, 0, 0, 0);
-                        Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseModelEntity", "m_clrRender");
-                    }
-                    else if (removeLegsEnabled == true)
+                    if (removeLegsEnabled == true)
                     {
                         player.PlayerPawn.Value.Render = Color.FromArgb(254, 254, 254, 254);
                         Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseModelEntity", "m_clrRender");
@@ -110,18 +105,12 @@ namespace SharpTimer
             }
         }
 
-        private void OnPlayerDisconnect(CCSPlayerController? player, bool isForBot = false)
+        private void OnPlayerDisconnect(CCSPlayerController? player)
         {
             if (player == null) return;
 
             try
             {
-                if (isForBot == true && connectedReplayBots.TryGetValue(player.Slot, out var connectedReplayBot))
-                {
-                    connectedReplayBots.Remove(player.Slot);
-                    SharpTimerDebug($"Removed bot {connectedReplayBot.PlayerName} with UserID {connectedReplayBot.UserId} from connectedReplayBots.");
-                }
-
                 if (connectedPlayers.TryGetValue(player.Slot, out var connectedPlayer))
                 {
                     connectedPlayers.Remove(player.Slot);
@@ -149,7 +138,7 @@ namespace SharpTimer
                     SharpTimerDebug($"Total playerTimers: {playerTimers.Count}");
                     SharpTimerDebug($"Total specTargets: {specTargets.Count}");
 
-                    if (connectMsgEnabled == true && isForBot == false)
+                    if (connectMsgEnabled == true)
                     {
                         Server.PrintToChatAll($"{msgPrefix}Player {ChatColors.Red}{connectedPlayer.PlayerName} {ChatColors.White}disconnected!");
                     }
@@ -157,7 +146,7 @@ namespace SharpTimer
             }
             catch (Exception ex)
             {
-                SharpTimerError($"Error in OnPlayerDisconnect (probably replay bot related lolxd): {ex.Message}");
+                SharpTimerError($"Error in OnPlayerDisconnect: {ex.Message}");
             }
         }
 

@@ -1,5 +1,3 @@
-using MySqlConnector;
-
 namespace SharpTimer.Database
 {
     public class MySqlDatabase : Database

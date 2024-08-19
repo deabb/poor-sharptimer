@@ -1,5 +1,3 @@
-using Npgsql;
-
 namespace SharpTimer.Database
 {
     public class PostgreSqlDatabase : Database
